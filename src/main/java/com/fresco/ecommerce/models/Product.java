@@ -55,16 +55,16 @@ public class Product {
 		this.price = price;
 	}
 
-	public User getSeller() {
-		return seller;
+	public String getSeller() {
+		return seller.getUsername();
 	}
 
 	public void setSeller(User seller) {
 		this.seller = seller;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getCategory() {
+		return category.getCategoryName();
 	}
 
 	public void setCategory(Category category) {

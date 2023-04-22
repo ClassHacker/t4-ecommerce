@@ -6,15 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public class User {
 	@Id
 	private Integer userId;
+	
 	private String username;
+	
+	@XmlTransient
 	private String password;
-
-	// Implement Roles
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
@@ -46,9 +48,9 @@ public class User {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
-	}
+//	public String getPassword() {
+//		return password;
+//	}
 
 	public void setPassword(String password) {
 		this.password = password;
