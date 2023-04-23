@@ -32,13 +32,11 @@ public class ProductResource {
 	}
 	
 	@DeleteMapping(path = "products/{id}")
-	public Product deleteProduct(@PathVariable int id) {
+	public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
 		try {
-			return productService.removeProduct(id);
+			return ResponseEntity.ok(productService.removeProduct(id));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			return ResponseEntity.of(Optional.ofNullable(null));
 		}
 	}
 
