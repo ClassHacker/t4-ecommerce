@@ -36,12 +36,8 @@ public class ProductService {
 		return products;
 	}
 	
-	public Product getProduct(Integer id) {
-		Optional<Product> product = productRepo.findById(id);
-		if (product.isPresent()) {
-			return product.get();
-		}
-		return null;
+	public Optional<Product> getProduct(Integer id) {
+		return productRepo.findById(id);
 	}
 	
 	public Product addProduct(Product productToAdd) throws Exception {
