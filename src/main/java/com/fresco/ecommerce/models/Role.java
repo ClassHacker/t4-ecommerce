@@ -1,42 +1,22 @@
 package com.fresco.ecommerce.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
 
-@Entity
-public class Role {
-	@Id
-	private Integer roleId;
-	private String role;
+public enum Role {
+	CONSUMER, SELLER;
+}
 
-	public Role() {
-		super();
-	}
+class RoleGrantedAuthority implements GrantedAuthority {
+	private static final long serialVersionUID = -3408298481881657796L;
+	String role;
 
-	public Role(String role) {
-		super();
-		this.role = role;
-	}
-
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
+	public RoleGrantedAuthority(String role) {
 		this.role = role;
 	}
 
 	@Override
-	public String toString() {
-		return "Role [roleId=" + roleId + ", role=" + role + "]";
+	public String getAuthority() {
+		return this.role;
 	}
 
 }

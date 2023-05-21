@@ -4,18 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
-	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Integer productId;
 	private String productName;
 	private Double price;
-	@ManyToOne
+	@ManyToOne()
+	@JoinColumn(name = "seller_id", referencedColumnName = "userId", updatable = false)
+	@JsonIgnore
 	private User seller;
-	@ManyToOne
+
+	@ManyToOne()
+	@JoinColumn(name = "category_id", referencedColumnName = "categoryId")
 	private Category category;
 
 	public Product() {
@@ -55,16 +62,16 @@ public class Product {
 		this.price = price;
 	}
 
-	public String getSeller() {
-		return seller.getUsername();
+	public User getSeller() {
+		return seller;
 	}
 
 	public void setSeller(User seller) {
 		this.seller = seller;
 	}
 
-	public String getCategory() {
-		return category.getCategoryName();
+	public Category getCategory() {
+		return category;
 	}
 
 	public void setCategory(Category category) {

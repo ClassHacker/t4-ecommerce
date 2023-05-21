@@ -25,7 +25,7 @@ public class ProductService {
 	public List<Product> getAllProductsByCategory(String categoryName) {
 		List<Product> products = new ArrayList<>();
 		products = productRepo.findAll();
-		products.removeIf(product -> product.getCategory() != categoryName);
+		products.removeIf(product -> product.getCategory().getCategoryName() != categoryName);
 		return products;
 	}
 	
