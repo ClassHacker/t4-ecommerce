@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fresco.ecommerce.config.JwtUtil;
 import com.fresco.ecommerce.models.Product;
 import com.fresco.ecommerce.models.User;
 import com.fresco.ecommerce.repo.ProductRepo;
@@ -26,6 +27,9 @@ public class PublicController {
 	
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	JwtUtil jwt;
 
 	@GetMapping("/product/search")
 	public List<Product> getProducts(@RequestParam("keyword") String key) {
@@ -41,7 +45,7 @@ public class PublicController {
 		Optional<User> validUser = userRepo.findByUsername(user.getUsername());
 		if (validUser.isPresent()) {
 			if (validUser.get().getPassword().equals(user.getPassword())) {
-				return ResponseEntity.ok("JWT");
+				return ResponseEntity.ok(jwt.generateToken(user.getUsername()));
 			}
 		}
 		return ResponseEntity.status(401).build();
