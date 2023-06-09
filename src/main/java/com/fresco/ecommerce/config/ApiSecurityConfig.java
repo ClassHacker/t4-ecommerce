@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fresco.ecommerce.repo.UserRepo;
 
@@ -26,6 +27,12 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserRepo userRepo;
+    
+    @Autowired
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+    
+    @Autowired
+    ApiAuthenticationEntryPoint apiAuthenticationEntryPoint;
     
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -41,9 +48,14 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests().anyRequest().permitAll();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.csrf().disable()
+        .authorizeRequests().antMatchers("/api/public/**").permitAll()
+        .antMatchers("/h2-console/**").permitAll()
+        .anyRequest().authenticated()
+        .and().exceptionHandling().authenticationEntryPoint(apiAuthenticationEntryPoint)
+        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.headers().frameOptions().disable();
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean

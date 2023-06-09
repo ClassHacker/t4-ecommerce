@@ -14,6 +14,7 @@ public class ConsumerController {
 
 	@GetMapping("/cart")
 	public ResponseEntity<Object> getCart() {
+		System.out.println("Request received.");
 		return null;
 	}
 
